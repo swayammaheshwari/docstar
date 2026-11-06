@@ -9,3 +9,4 @@
 | 2026-11-03 | 5 CLI: every endpoint as a command (docstar-cli) | 2026-11-03-cli-every-endpoint.md | published 2026-11-03 |
 | 2026-11-04 | 6 The docstar-editor block and Markdown editor | 2026-11-04-docstar-editor.md | published 2026-11-04 |
 | 2026-11-05 | 7 Real-time collaboration | 2026-11-05-real-time-collaboration.md | published 2026-11-05 |
+| 2026-11-06 | 8 SEO-first publishing | 2026-11-06-seo-first-publishing.md | published 2026-11-06 |
