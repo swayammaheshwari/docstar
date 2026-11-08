@@ -11,3 +11,4 @@
 | 2026-11-05 | 7 Real-time collaboration | 2026-11-05-real-time-collaboration.md | published 2026-11-05 |
 | 2026-11-06 | 8 SEO-first publishing | 2026-11-06-seo-first-publishing.md | published 2026-11-06 |
 | 2026-11-07 | 9 Practical tip about writing good API or team documentation | 2026-11-07-writing-good-api-docs-tip.md | published 2026-11-07 |
+| 2026-11-08 | 10 Behind-the-scenes note on how DocStar is built | 2026-11-08-behind-the-scenes-how-docstar-is-built.md | published 2026-11-08 |
