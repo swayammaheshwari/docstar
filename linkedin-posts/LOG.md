@@ -13,3 +13,4 @@
 | 2026-11-07 | 9 Practical tip about writing good API or team documentation | 2026-11-07-writing-good-api-docs-tip.md | published 2026-11-07 |
 | 2026-11-08 | 10 Behind-the-scenes note on how DocStar is built | 2026-11-08-behind-the-scenes-how-docstar-is-built.md | published 2026-11-08 |
 | 2026-11-09 | 1 Team docs shared and versioned by default (history angle) | 2026-11-09-team-docs-shared-versioned-history.md | published 2026-11-09 |
+| 2026-11-10 | 2 One source published as internal, product, help, API docs and blogs (audience-is-a-publishing-choice angle) | 2026-11-10-one-source-many-outputs-audience-angle.md | published 2026-11-10 |
