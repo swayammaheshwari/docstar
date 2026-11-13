@@ -16,3 +16,4 @@
 | 2026-11-10 | 2 One source published as internal, product, help, API docs and blogs (audience-is-a-publishing-choice angle) | 2026-11-10-one-source-many-outputs-audience-angle.md | published 2026-11-10 |
 | 2026-11-11 | 3 API docs with a public docs site per collection (reference-and-guides-together angle) | 2026-11-11-api-docs-guides-and-endpoints.md | published 2026-11-11 |
 | 2026-11-12 | 4 MCP: your API usable from Claude, ChatGPT, Cursor (endpoint-docs-are-tool-definitions angle) | 2026-11-12-mcp-docs-are-the-tool-definitions.md | published 2026-11-12 |
+| 2026-11-13 | 5 CLI: every endpoint as a command (docstar-cli) (sign-in and API keys, safe-for-AI-assistants angle) | 2026-11-13-cli-sign-in-safe-for-ai.md | published 2026-11-13 |
