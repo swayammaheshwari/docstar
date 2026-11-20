@@ -1,12 +1,12 @@
 
-name: Sync API Docs to DocStar
+name: Sync API Docs (OpenAPI) to DocStar
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
     paths:
       - api-docs/**
-      - docstar.json
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -15,94 +15,62 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Send changed files to DocStar
+      - name: Send changed API modules to DocStar
         env:
           DOCSTAR_API_KEY: ${{ secrets.DOCSTAR_API_KEY }}
           DOCSTAR_COLLECTION_ID: jfQSia70JKDQ
-        run: >
+        run: |
           set -e
 
-
-          echo "Preparing changed files with content..."
-
-
-          if [ -z "${{ github.event.before }}" ] || \
-             [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then
-            echo "First commit — marking all docs as Added"
+          if [ -z "${{ github.event.before }}" ] || [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then
             CHANGED=$(git ls-files api-docs | awk '{print "A\t"$0}')
           else
-            CHANGED=$(git diff --name-status "${{ github.event.before }}" "${{ github.sha }}" \
-              | grep -E '^[A-Z]\s+api-docs/' || true)
+            CHANGED=$(git diff --name-status "${{ github.event.before }}" "${{ github.sha }}" | grep -E '^[A-Z]\s+api-docs/' || true)
           fi
 
-
-          echo "Changed files:"
-
-          echo "$CHANGED"
-
-
           if [ -z "$CHANGED" ]; then
-            echo "No docs changes detected."
+            echo "No api-docs changes detected."
             exit 0
           fi
 
+          # A module is api-docs/<folder> (specs + optional docstar.json) or one loose api-docs/<file>.
+          # Send every file of a touched module so DocStar can tell removed operations apart.
+          MODULES=$(echo "$CHANGED" | cut -f2 | awk -F/ '{ if (NF>=3) print $1"/"$2; else print $0 }' | sort -u)
+          LIST=""
+          for M in $MODULES; do
+            if ! echo "$M" | grep -qiE '\.(ya?ml|json)$'; then
+              LIST="$LIST$(git ls-files "$M" | awk '{print "M\t"$0}')"$'\n'
+              LIST="$LIST$(echo "$CHANGED" | awk -F'\t' -v m="$M/" '$1=="D" && index($2,m)==1')"$'\n'
+            else
+              LIST="$LIST$(echo "$CHANGED" | awk -F'\t' -v f="$M" '$2==f')"$'\n'
+            fi
+          done
+
+          # api-docs/docstar.json (module order) always travels along, so order is re-applied when modules are added
+          if [ -f api-docs/docstar.json ]; then
+            LIST="$LIST"$'M\tapi-docs/docstar.json\n'
+          fi
 
           echo "[]" > /tmp/files.json
-
-
           while IFS=$'\t' read -r STATUS FILE; do
             [ -z "$FILE" ] && continue
-
             if [ "$STATUS" = "D" ]; then
-              jq -n \
-                --arg path "$FILE" \
-                --arg status "$STATUS" \
-                '{
-                  path: $path,
-                  status: $status,
-                  content: null
-                }' > /tmp/file_obj.json
+              jq -n --arg path "$FILE" --arg status "$STATUS" '{path: $path, status: $status, content: null}' > /tmp/file_obj.json
             else
               CONTENT=$(jq -Rs . < "$FILE")
-
-              jq -n \
-                --arg path "$FILE" \
-                --arg status "$STATUS" \
-                --argjson content "$CONTENT" \
-                '{
-                  path: $path,
-                  status: $status,
-                  content: $content
-                }' > /tmp/file_obj.json
+              jq -n --arg path "$FILE" --arg status "$STATUS" --argjson content "$CONTENT" '{path: $path, status: $status, content: $content}' > /tmp/file_obj.json
             fi
-
             jq ". + [$(cat /tmp/file_obj.json)]" /tmp/files.json > /tmp/files_new.json
             mv /tmp/files_new.json /tmp/files.json
+          done <<< "$LIST"
 
-          done <<< "$CHANGED"
-
-
-          FILES_JSON=$(cat /tmp/files.json)
-
-
-          echo "Final Payload:"
-
-          echo "$FILES_JSON"
-
+          jq -n --arg repository "${{ github.repository }}" --arg branch "${{ github.ref_name }}" --arg commit "${{ github.sha }}" --arg collectionId "$DOCSTAR_COLLECTION_ID" --slurpfile files /tmp/files.json \
+            '{repository: $repository, branch: $branch, commit: $commit, collectionId: $collectionId, files: $files[0]}' > /tmp/payload.json
 
           RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" \
-            -X POST https://api.docstar.io/import/github \
+            -X POST https://api.docstar.io/import/github/openapi \
             -H "Authorization: Bearer $DOCSTAR_API_KEY" \
             -H "Content-Type: application/json" \
-            -d "{
-              \"repository\": \"${{ github.repository }}\",
-              \"branch\": \"${{ github.ref_name }}\",
-              \"commit\": \"${{ github.sha }}\",
-              \"collectionId\": \"$DOCSTAR_COLLECTION_ID\",
-              \"files\": $FILES_JSON
-            }")
+            -d @/tmp/payload.json)
 
           echo "$RESPONSE"
-
-
-          echo "DocStar sync completed."
