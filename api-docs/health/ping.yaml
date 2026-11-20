@@ -11,10 +11,10 @@ paths:
       operationId: ping
       x-docstar-published: true
       summary: Ping
-      description: Health check. Returns `ok` when the API is up.
+      description: Health check. Returns `ok` when the API is up. Also reports the API version in the `version` field.
       responses:
         "200":
           description: The API is up.
           content:
             application/json:
-              example: { status: "ok" }
+              example: { status: "ok", version: "1.0.0" }
