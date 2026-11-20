@@ -1,0 +1,7 @@
+{
+  "name": "Health",
+  "description": "Check that the API is up.",
+  "published": true,
+  "defaultPublished": true,
+  "content": "* **Ping** — GET https://api.example.com/v1/ping"
+}

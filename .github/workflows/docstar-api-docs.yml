@@ -18,7 +18,7 @@ jobs:
       - name: Send changed files to DocStar
         env:
           DOCSTAR_API_KEY: ${{ secrets.DOCSTAR_API_KEY }}
-          DOCSTAR_COLLECTION_ID: R3LtcnwovJ7R
+          DOCSTAR_COLLECTION_ID: jfQSia70JKDQ
         run: >
           set -e
 

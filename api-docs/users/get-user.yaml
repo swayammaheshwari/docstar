@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: Users
+  version: 1.0.0
+  x-docstar-published: true
+servers:
+  - url: "{{BASE_URL}}"
+paths:
+  /v1/users/{userId}:
+    get:
+      operationId: get-user
+      x-docstar-published: true
+      summary: Get user
+      description: Returns one user by id.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Id of the user, for example `usr_101`.
+          schema: { type: string }
+      responses:
+        "200":
+          description: The user.
+          content:
+            application/json:
+              example: { id: "usr_101", name: "Asha Rao", email: "asha@example.com", role: "member" }
+        "404":
+          description: User not found.
+          content:
+            application/json:
+              example: { error: "user not found" }

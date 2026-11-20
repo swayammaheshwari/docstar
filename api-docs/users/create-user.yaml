@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: Users
+  version: 1.0.0
+  x-docstar-published: true
+servers:
+  - url: "{{BASE_URL}}"
+paths:
+  /v1/users:
+    post:
+      operationId: create-user
+      x-docstar-published: true
+      summary: Create user
+      description: |
+        Creates a user in the workspace.
+
+        Body fields: `name` (string, required), `email` (string, required), `role` (string, `admin` or `member`, default `member`).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Asha Rao
+              email: asha@example.com
+              role: member
+      responses:
+        "201":
+          description: User created.
+          content:
+            application/json:
+              example:
+                id: usr_101
+                name: Asha Rao
+                email: asha@example.com
+                role: member
+        "400":
+          description: Missing or invalid field.
+          content:
+            application/json:
+              example: { error: "email is required" }

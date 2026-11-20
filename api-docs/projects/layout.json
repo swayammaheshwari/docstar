@@ -1,0 +1,7 @@
+{
+  "name": "Projects",
+  "description": "Group work into projects.",
+  "published": true,
+  "defaultPublished": true,
+  "content": "* **List projects** — GET https://api.example.com/v1/projects\n* **Create project** — POST https://api.example.com/v1/projects"
+}

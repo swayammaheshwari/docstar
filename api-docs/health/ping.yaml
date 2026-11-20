@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info:
+  title: Health
+  version: 1.0.0
+  x-docstar-published: true
+servers:
+  - url: "{{BASE_URL}}"
+paths:
+  /v1/ping:
+    get:
+      operationId: ping
+      x-docstar-published: true
+      summary: Ping
+      description: Health check. Returns `ok` when the API is up.
+      responses:
+        "200":
+          description: The API is up.
+          content:
+            application/json:
+              example: { status: "ok" }

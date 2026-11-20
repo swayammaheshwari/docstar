@@ -1,0 +1,7 @@
+{
+  "name": "Users",
+  "description": "Create and look up the users of the demo workspace.",
+  "published": true,
+  "defaultPublished": true,
+  "content": "* **List users** — GET https://api.example.com/v1/users\n* **Create user** — POST https://api.example.com/v1/users\n* **Get user** — GET https://api.example.com/v1/users/{userId}"
+}

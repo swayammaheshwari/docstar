@@ -1,0 +1,7 @@
+{
+  "name": "Roles",
+  "description": "Change the role of a user. A sub-module of Users.",
+  "published": true,
+  "defaultPublished": true,
+  "content": "* **Update user role** — PATCH https://api.example.com/v1/users/{userId}/role"
+}

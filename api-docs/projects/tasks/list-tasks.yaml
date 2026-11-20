@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: Tasks
+  version: 1.0.0
+  x-docstar-published: true
+servers:
+  - url: "{{BASE_URL}}"
+paths:
+  /v1/projects/{projectId}/tasks:
+    get:
+      operationId: list-tasks
+      x-docstar-published: true
+      summary: List tasks
+      description: |
+        Returns the tasks of a project.
+
+        Query params: `done` (boolean, optional) filters by completion.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: Id of the project, for example `prj_1`.
+          schema: { type: string }
+        - name: done
+          in: query
+          description: Only return completed or open tasks.
+          schema: { type: boolean }
+      responses:
+        "200":
+          description: The tasks.
+          content:
+            application/json:
+              example:
+                data:
+                  - { id: "tsk_1", title: "Design hero section", done: false }

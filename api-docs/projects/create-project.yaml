@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  title: Projects
+  version: 1.0.0
+  x-docstar-published: true
+servers:
+  - url: "{{BASE_URL}}"
+paths:
+  /v1/projects:
+    post:
+      operationId: create-project
+      x-docstar-published: true
+      summary: Create project
+      description: |
+        Creates a project.
+
+        Body fields: `name` (string, required), `description` (string, optional).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example: { name: "Website revamp", description: "New landing pages" }
+      responses:
+        "201":
+          description: Project created.
+          content:
+            application/json:
+              example: { id: "prj_1", name: "Website revamp", status: "active" }

@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  title: Projects
+  version: 1.0.0
+  x-docstar-published: true
+servers:
+  - url: "{{BASE_URL}}"
+paths:
+  /v1/projects:
+    get:
+      operationId: list-projects
+      x-docstar-published: true
+      summary: List projects
+      description: |
+        Returns all projects of the workspace.
+
+        Query params: `status` (`active` or `archived`, optional).
+      parameters:
+        - name: status
+          in: query
+          description: Filter by project status.
+          schema: { type: string, enum: [active, archived] }
+      responses:
+        "200":
+          description: The projects.
+          content:
+            application/json:
+              example:
+                data:
+                  - { id: "prj_1", name: "Website revamp", status: "active" }

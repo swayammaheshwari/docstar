@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: Users
+  version: 1.0.0
+  x-docstar-published: true
+servers:
+  - url: "{{BASE_URL}}"
+paths:
+  /v1/users:
+    get:
+      operationId: list-users
+      x-docstar-published: true
+      summary: List users
+      description: |
+        Returns the users of the workspace, newest first.
+
+        Query params: `limit` (1-100, default 20), `page` (default 1).
+      parameters:
+        - name: limit
+          in: query
+          description: Number of users per page (1-100).
+          schema: { type: integer, default: 20 }
+        - name: page
+          in: query
+          description: Page number, starting at 1.
+          schema: { type: integer, default: 1 }
+      responses:
+        "200":
+          description: A page of users.
+          content:
+            application/json:
+              example:
+                data:
+                  - { id: "usr_101", name: "Asha Rao", email: "asha@example.com", role: "member" }
+                page: 1

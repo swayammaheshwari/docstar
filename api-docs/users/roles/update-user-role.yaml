@@ -1,0 +1,34 @@
+openapi: 3.0.3
+info:
+  title: Roles
+  version: 1.0.0
+  x-docstar-published: true
+servers:
+  - url: "{{BASE_URL}}"
+paths:
+  /v1/users/{userId}/role:
+    patch:
+      operationId: update-user-role
+      x-docstar-published: true
+      summary: Update user role
+      description: |
+        Changes the role of a user.
+
+        Body fields: `role` (string, required, `admin` or `member`).
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Id of the user.
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example: { role: admin }
+      responses:
+        "200":
+          description: Role updated.
+          content:
+            application/json:
+              example: { id: "usr_101", role: "admin" }
